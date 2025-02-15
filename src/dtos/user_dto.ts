@@ -1,4 +1,4 @@
 import { User } from "@prisma/client";
 
 
-export type CreateUserDTO = User
+export type CreateUserDTO = Pick<User, 'userName' | 'fullName' | 'password'> 
