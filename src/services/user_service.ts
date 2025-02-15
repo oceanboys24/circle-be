@@ -1,68 +1,136 @@
 import { Prisma } from "@prisma/client";
-import { CreateUserDTO } from "../dtos/user_dto";
+import { CreateUserDTO, UpdateUserDTO } from "../dtos/user_dto";
 import { prisma } from "../libs/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 class UserService {
   async createUser(data: CreateUserDTO) {
-    const userNameTaken = await prisma.user.findUnique({
-      where : { userName : data.userName}
-    })
-    if(userNameTaken) {
-      return {message : "Username already Taken"}
-    }
-    const CreateUser = await prisma.user.create({
-      data
-    })
-
-    return {
-      data : CreateUser
+    try {
+      const userCreate = await prisma.user.create({ data });
+      return {
+        status: 201,
+        message: "Success Create",
+        data: userCreate,
+      };
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2002") {
+          return {
+            status: 409,
+            message: "Username Already Taken",
+            field: error.meta?.target,
+          };
+        }
+      }
+      return {
+        status: 500,
+        message: "Internal Server Error",
+      };
     }
   }
 
   async getUserById(id: string) {
-    const resultUser = await prisma.user.findFirst({
-      where: { id },
-    });
-    if (!resultUser) {
-      return {message : "User Not Found"} 
+    try {
+      const resultUser = await prisma.user.findUnique({
+        where: { id },
+      });
+      if (!resultUser) {
+        return { status: 404, message: "User Not Found" };
+      }
+      return {
+        status: 200,
+        message: "Record Found",
+        data: resultUser,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        message: "Internal Server Error",
+      };
     }
-    return resultUser
-  }
-  async getAllUsers() {
-    const resultAllUser = await prisma.user.findMany();
-    if (!resultAllUser) {
-      return {message : "User Not Found"}
-    }
-    return resultAllUser;
-  }
-  async deleteUser(id: string) {   
-   try {
-    await prisma.user.delete({
-      where : {id}
-    })
-    return {
-      status : 200,
-      message : "Success Delete User"
-    }
-   } catch (err) {
-      if(err instanceof PrismaClientKnownRequestError){
-        if (err.code === 'P2025'){
-          return {
-            status : 404,
-            message : "Record Not Found"
-          }
-        }
-      } 
-   }
-  }
-  async updateUser(id : string, data : CreateUserDTO){
-    return await prisma.user.update({
-        where : {id},
-        data
-    })
   }
 
+  async getAllUsers() {
+    try {
+      const resultAllUser = await prisma.user.findMany();
+      if (!resultAllUser) {
+        return { status: 404, message: "User Not Found" };
+      }
+      return {
+        status: 200,
+        message: "Users Found",
+        data: resultAllUser,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        message: "Internal Server Error",
+      };
+    }
+  }
+
+  async deleteUser(id: string) {
+    try {
+      const deletedUser = await prisma.user.delete({
+        where: { id },
+      });
+      return {
+        status: 200,
+        message: "Success Delete User",
+      };
+    } catch (err) {
+      if (err instanceof PrismaClientKnownRequestError) {
+        if (err.code === "P2025") {
+          return {
+            status: 404,
+            message: "Record Not Found",
+          };
+        }
+      }
+    }
+  }
+
+  async updateUser(id: string, data: UpdateUserDTO) {
+    try {
+      const userUpdate = await prisma.user.findUnique({
+        where: { id },
+      });
+      if (!userUpdate) {
+        return {
+          status: 404,
+          message: "Record Not Found",
+        };
+      }
+
+      // Check Data is Update or Not
+      const isDataSame = Object.keys(data).every(
+        (key) => (data as any)[key] === (userUpdate as any)[key]
+      );
+
+      if (isDataSame) {
+        return {
+          status: 200,
+          message: "Not updated yet",
+        };
+      }
+
+      const updatedUser = await prisma.user.update({
+        where: { id },
+        data,
+      });
+
+      return {
+        status: 200,
+        message: "Success Update User",
+        data: updatedUser,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        message: "Internal Server Error",
+      };
+    }
+  }
 }
 
 export default new UserService();
