@@ -1,14 +1,17 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express, Request, Response, Router } from "express";
+import UserRoute from "./routes/user_route";
+
 require("dotenv").config();
 
 const app: Express = express();
-const port = process.env.PORT
+const port = process.env.PORT;
 
+app.use(express.json());
 
-app.get('/',(req: Request, res:Response) => {
-    res.send("Hello World")
-}) 
+// Endpoint
+app.use("/users", UserRoute);
 
+// Run App
 app.listen(port, () => {
-    console.log("Server Running On Port", port)
-})
+  console.log("Running On Port", port);
+});
