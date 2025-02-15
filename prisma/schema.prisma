@@ -17,6 +17,7 @@ datasource db {
 model User {
   id String @id @default(uuid())
   fullName String 
+  email String @unique @default("")
   userName String @unique
   password String 
 
@@ -25,3 +26,4 @@ model User {
 
   @@map("users")
 }
+
