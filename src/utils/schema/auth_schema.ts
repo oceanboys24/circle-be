@@ -1,5 +1,10 @@
 import Joi from "joi";
-import { LoginUserDTO, RegisterUserDTO } from "../../dtos/auth_dto";
+import {
+  ForgotPasswordDTO,
+  LoginUserDTO,
+  RegisterUserDTO,
+  ResetPasswordDTO,
+} from "../../dtos/auth_dto";
 
 const RegisterAuthSchema = Joi.object<RegisterUserDTO>({
   userName: Joi.string().alphanum().min(5).required(),
@@ -13,5 +18,17 @@ const LoginAuthSchema = Joi.object<LoginUserDTO>({
   password: Joi.string().min(5).required(),
 });
 
+const ForgotPasswordSchema = Joi.object<ForgotPasswordDTO>({
+  email: Joi.string().email().required(),
+});
 
-export { RegisterAuthSchema, LoginAuthSchema };
+const ResetPasswordSchema = Joi.object<ResetPasswordDTO>({
+  newPassword: Joi.string().min(8).required(),
+});
+
+export {
+  RegisterAuthSchema,
+  LoginAuthSchema,
+  ForgotPasswordSchema,
+  ResetPasswordSchema,
+};

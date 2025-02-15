@@ -3,6 +3,27 @@ import { RegisterUserDTO } from "../dtos/auth_dto";
 import { prisma } from "../libs/prisma";
 
 class AuthService {
+
+  async GetUserByEmail(email: string) {
+    try {
+      const resultUser = await prisma.user.findUnique({
+        where: { email },
+      });
+      if (!resultUser) {
+        return { status: 404, message: "User Not Found" };
+      }
+      return {
+        status: 200,
+        message: "Record Found",
+        data: resultUser,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        message: "Internal Server Error",
+      };
+    }
+  }
   async LoginAuthService(email: string) {
     try {
       const resultUser = await prisma.user.findUnique({
@@ -23,7 +44,27 @@ class AuthService {
       };
     }
   }
-  async createRegisterAuth(data: RegisterUserDTO) {
+  async GetAuthUserById(id: string) {
+    try {
+      const resultUser = await prisma.user.findUnique({
+        where: { id },
+      });
+      if (!resultUser) {
+        return { status: 404, message: "User Not Found" };
+      }
+      return {
+        status: 200,
+        message: "Record Found",
+        data: resultUser,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        message: "Internal Server Error",
+      };
+    }
+  }
+  async CreateRegisterAuth(data: RegisterUserDTO) {
     try {
       const registerAuth = await prisma.user.create({ data });
       return {
@@ -46,6 +87,14 @@ class AuthService {
         message: "Internal Server Error",
       };
     }
+  }
+  async ResetPasswordAuth(email: string, hashedNewPassword: string) {
+    return await prisma.user.update({
+      where: { email },
+      data: {
+        password: hashedNewPassword,
+      },
+    });
   }
 }
 
