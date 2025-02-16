@@ -21,7 +21,11 @@ model User {
   userName String @unique
   password String 
 
+  // Table Relation To Profile
   profile Profile?
+
+  // Table Relation To Post
+  thread Thread[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -32,10 +36,11 @@ model User {
 // Profile Table
 model Profile {
   id String @id @default(uuid())
-  avatarUrl String?  @default("")
-  bannerUrl String? @default("")
-  bio String? @default("")
-  userId String @unique
+  avatarUrl String? 
+  bannerUrl String?
+  bio String? 
+  // References to User
+  userId String  @unique
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
@@ -43,3 +48,21 @@ model Profile {
 
   @@map("profiles")
 }
+
+// Threads Table 
+model Thread {
+  id String @id @default(uuid())
+  content String 
+  imageContent String?
+
+  // References to User
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("Threads")
+}
+
+// Follow Likes Reply 
