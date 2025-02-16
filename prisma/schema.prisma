@@ -29,6 +29,10 @@ model User {
   // Table Relation To Likes
   likes Like[]
 
+  // Follows Table Relation
+  following Follow[] @relation("FollowingUser")
+  followers Follow[] @relation("FollowersUser")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -91,7 +95,24 @@ model Like {
   @@map("Likes")
 }
 
+model Follow {
+  id String @id @default(uuid())
+
+  followingId String
+  following User @relation(name: "FollowingUser", fields: [followingId],references: [id])
+
+  followersId String
+  followers User @relation(name: "FollowersUser", fields: [followersId], references: [id])
+
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+
+  @@unique([followingId, followersId])
+  @@map("Follows")
+}
 
 
 
-// Follow  Reply 
+//  Reply 
