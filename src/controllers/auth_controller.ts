@@ -43,7 +43,7 @@ class AuthController {
         },
         jwtSecret,
         {
-          expiresIn: "2 days",
+          expiresIn: "1 days",
         }
       );
 
@@ -125,7 +125,7 @@ class AuthController {
       const jwtSecret = process.env.JWT_SECRET || "";
       // Generate Token to Email
       const token = jwt.sign({ email }, jwtSecret, {
-        expiresIn: "2 days",
+        expiresIn: "20m",
       });
       // Link Reset Password
       const resetPasswordLink = `localhost/reset-password?token=${token}`;

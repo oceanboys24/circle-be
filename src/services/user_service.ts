@@ -33,6 +33,9 @@ class UserService {
     try {
       const resultUser = await prisma.user.findUnique({
         where: { id },
+        include: {
+          profile: true,
+        },
       });
       if (!resultUser) {
         return { status: 404, message: "User Not Found" };
@@ -52,15 +55,23 @@ class UserService {
 
   async getAllUsers() {
     try {
-      const resultAllUser = await prisma.user.findMany();
-      if (!resultAllUser) {
+      const resultAllUser = await prisma.user.findMany({
+        include: {
+          profile: true,
+        },
+      });
+      
+
+      if (resultAllUser.length === 0) {
         return { status: 404, message: "User Not Found" };
       }
+
       return {
         status: 200,
         message: "Users Found",
         data: resultAllUser,
       };
+
     } catch (error) {
       return {
         status: 500,

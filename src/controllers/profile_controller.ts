@@ -4,7 +4,7 @@ import ProfileService from "../services/profile_service";
 import Joi from "joi";
 
 class ProfileController {
-  async AddProfileController(req: Request, res: Response) {
+  async UpdateProfileController(req: Request, res: Response) {
     try {
       // Read Request and Validate
       const userId = (req as any).userVerify.id;
