@@ -26,6 +26,8 @@ model User {
 
   // Table Relation To Post
   thread Thread[]
+  // Table Relation To Likes
+  likes Like[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -58,6 +60,8 @@ model Thread {
   // References to User
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Likes Table
+  likes Like[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -65,4 +69,28 @@ model Thread {
   @@map("Threads")
 }
 
-// Follow Likes Reply 
+// Likes Table
+model Like {
+  id String @id @default(uuid())
+
+  // References to User
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // References to Thread
+  threadId String
+  Thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+
+  @@unique([userId,threadId])
+  @@map("Likes")
+}
+
+
+
+
+// Follow  Reply 
