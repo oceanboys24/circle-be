@@ -118,27 +118,27 @@ class AuthController {
   }
   async ForgotPasswordAuth(req: Request, res: Response) {
     try {
+      // Read Request From Client and Validate
       const body = req.body;
       const { email } = await ForgotPasswordSchema.validateAsync(body);
-
+      // Create JWT
       const jwtSecret = process.env.JWT_SECRET || "";
-
+      // Generate Token to Email
       const token = jwt.sign({ email }, jwtSecret, {
         expiresIn: "2 days",
       });
+      // Link Reset Password
       const resetPasswordLink = `localhost/reset-password?token=${token}`;
-
+      // Body Reset Password
       const mailOptions = {
         from: "alfian_jw@yahoo.com",
         to: email,
         subject: "Circle | Forgot Password",
-        html: `
-        <h1>This is link for reset password:</h1>
-        <a href="${resetPasswordLink}">${resetPasswordLink}</a>  
-        `,
+        html: ` This is link for reset password: ${resetPasswordLink}">${resetPasswordLink}`,
       };
-
+      // Send Link
       await transporter.sendMail(mailOptions);
+      // Return Result
       res.status(200).json({
         status: 200,
         message: "Link Reset Password Sent",
@@ -155,7 +155,6 @@ class AuthController {
       const userPayload = (req as any).userVerify;
       const body = req.body;
       const { newPassword } = await ResetPasswordSchema.validateAsync(body);
-
 
       const user = await AuthService.GetUserByEmail(userPayload.email);
       if (!user) {
