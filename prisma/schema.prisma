@@ -28,6 +28,7 @@ model User {
   thread Thread[]
   // Table Relation To Likes
   likes Like[]
+  Replies Reply[]
 
   // Follows Table Relation
   following Follow[] @relation("FollowingUser")
@@ -67,6 +68,7 @@ model Thread {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   // Likes Table
   likes Like[]
+  replies Reply[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -113,6 +115,23 @@ model Follow {
   @@map("Follows")
 }
 
+model Reply {
+  id String @id @default(uuid())
+
+  // References to User
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // References to Thread
+  threadId String
+  Thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  content String
+  contentImage String?
 
 
-//  Reply 
+  reatedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  @@map("Replies")
+}

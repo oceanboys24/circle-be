@@ -1,20 +1,21 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { CreateThreadDTO, UpdateThreadDTO } from "../dtos/thread_dto";
+import { CreateReplyDTO, UpdateReplyDTO } from "../dtos/reply_dto";
 import { prisma } from "../libs/prisma";
 
-class ThreadService {
-  async CreateThreadService(userId: string, data: CreateThreadDTO) {
+class ReplyService {
+  async CreateReplyService(userId: string, data: CreateReplyDTO) {
     try {
-      const resultData = await prisma.thread.create({
+      const resultData = await prisma.reply.create({
         data: {
-          userId: userId,
           content: data.content,
-          imageContent: data.imageContent,
+          contentImage: data.contentImage,
+          userId: userId,
+          threadId: data.threadId,
         },
       });
       return {
         status: 200,
-        message: "Success Create Thread",
+        message: "Success Create Reply",
         data: resultData,
       };
     } catch (error) {
@@ -25,19 +26,19 @@ class ThreadService {
       };
     }
   }
-  async GetThreadById(id: string) {
+  async GetReplyById(id: string) {
     try {
-      const resultThread = await prisma.thread.findUnique({
+      const resultReply = await prisma.reply.findUnique({
         where: { id },
       });
-      if (!resultThread) {
-        return { status: 404, message: "Thread Not Found" };
+      if (!resultReply) {
+        return { status: 404, message: "Reply Not Found" };
       }
 
       return {
         status: 200,
         message: "Record Found",
-        data: resultThread,
+        data: resultReply,
       };
     } catch (error) {
       return {
@@ -47,18 +48,18 @@ class ThreadService {
       };
     }
   }
-  async GetAllThreads() {
+  async GetAllReply() {
     try {
-      const resultAllThread = await prisma.thread.findMany();
+      const resultAllReply = await prisma.reply.findMany();
 
-      if (resultAllThread.length === 0) {
-        return { status: 404, message: "Thread Not Found" };
+      if (resultAllReply.length === 0) {
+        return { status: 404, message: "Reply Not Found" };
       }
 
       return {
         status: 200,
-        message: "Threads Found",
-        data: resultAllThread,
+        message: "Replies Found",
+        data: resultAllReply,
       };
     } catch (error) {
       return {
@@ -67,33 +68,33 @@ class ThreadService {
       };
     }
   }
-  async DeleteThread(id: string) {
+  async DeleteReply(id: string) {
     try {
-      const deletedThread = await prisma.thread.delete({
+      const deletedReply = await prisma.reply.delete({
         where: { id },
       });
       return {
         status: 200,
-        message: "Success Delete Thread",
+        message: "Success Delete Reply",
       };
     } catch (err) {
       if (err instanceof PrismaClientKnownRequestError) {
         if (err.code === "P2025") {
           return {
             status: 404,
-            message: "Thread Not Found",
+            message: "Reply Not Found",
           };
         }
       }
     }
   }
 
-  async UpdateThread(id: string, data: UpdateThreadDTO) {
+  async UpdateReply(id: string, data: UpdateReplyDTO) {
     try {
-      const threadUpdate = await prisma.thread.findUnique({
+      const replyUpdate = await prisma.reply.findUnique({
         where: { id },
       });
-      if (!threadUpdate) {
+      if (!replyUpdate) {
         return {
           status: 404,
           message: "Record Not Found",
@@ -102,7 +103,7 @@ class ThreadService {
 
       // Check Data is Update or Not
       const isDataSame = Object.keys(data).every(
-        (key) => (data as any)[key] === (threadUpdate as any)[key]
+        (key) => (data as any)[key] === (replyUpdate as any)[key]
       );
 
       if (isDataSame) {
@@ -112,19 +113,19 @@ class ThreadService {
         };
       }
 
-      const updatedThread = await prisma.thread.update({
+      const updatedReply = await prisma.reply.update({
         where: { id },
         data: {
           content: data.content,
-          imageContent: data.imageContent,
+          contentImage: data.contentImage,
           updatedAt: new Date(),
         },
       });
 
       return {
         status: 200,
-        message: "Success Update Thread",
-        data: updatedThread,
+        message: "Success Update Reply",
+        data: updatedReply,
       };
     } catch (error) {
       return {
@@ -135,4 +136,4 @@ class ThreadService {
   }
 }
 
-export default new ThreadService();
+export default new ReplyService();

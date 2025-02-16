@@ -5,6 +5,7 @@ import ProfileRoute from "./routes/profile_route";
 import ThreadRoute from "./routes/thread_route";
 import LikesRoute from "./routes/like_route";
 import FollowRoute from "./routes/follow_route";
+import ReplyRoute from "./routes/reply_route";
 
 require("dotenv").config();
 
@@ -20,6 +21,7 @@ app.use("/profile", ProfileRoute);
 app.use("/threads", ThreadRoute);
 app.use("/likes", LikesRoute);
 app.use("/follows", FollowRoute)
+app.use("/reply", ReplyRoute)
 
 // Run App
 app.listen(port, () => {
