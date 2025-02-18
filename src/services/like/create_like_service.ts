@@ -1,7 +1,7 @@
 import { prisma } from "../../libs/prisma";
 
 
-export default async function CreateLikes(userId: string, threadId: string) {
+export default async function CreateLikesService(userId: string, threadId: string) {
   try {
     const existingLike = await prisma.like.findUnique({
       where: { userId_threadId: { userId, threadId } },

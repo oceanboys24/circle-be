@@ -1,7 +1,10 @@
 import { UpdateThreadDTO } from "../../dtos/thread_dto";
 import { prisma } from "../../libs/prisma";
 
-export default async function UpdateThread(id: string, data: UpdateThreadDTO) {
+export default async function UpdateThreadService(
+  id: string,
+  data: UpdateThreadDTO
+) {
   try {
     const threadUpdate = await prisma.thread.findUnique({
       where: { id },

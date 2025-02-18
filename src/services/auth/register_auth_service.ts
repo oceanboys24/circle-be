@@ -2,7 +2,7 @@ import { RegisterUserDTO } from "../../dtos/auth_dto";
 import { prisma } from "../../libs/prisma";
 import { Prisma } from "@prisma/client";
 
-export default async function CreateRegisterAuth(data: RegisterUserDTO) {
+export default async function CreateRegisterAuthService(data: RegisterUserDTO) {
   try {
     const registerAuth = await prisma.user.create({ data });
     return {

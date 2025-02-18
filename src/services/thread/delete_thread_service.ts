@@ -1,7 +1,7 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { prisma } from "../../libs/prisma";
 
-export default async function DeleteThread(id: string) {
+export default async function DeleteThreadService(id: string) {
   try {
     const deletedThread = await prisma.thread.delete({
       where: { id },

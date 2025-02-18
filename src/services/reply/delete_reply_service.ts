@@ -1,7 +1,7 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { prisma } from "../../libs/prisma";
 
-export default async function DeleteReply(id: string) {
+export default async function DeleteReplyService(id: string) {
   try {
     const deletedReply = await prisma.reply.delete({
       where: { id },

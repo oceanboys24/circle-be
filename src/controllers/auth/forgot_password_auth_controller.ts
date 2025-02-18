@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ForgotPasswordSchema } from "../../utils/schema/auth_schema";
 import { transporter } from "../../libs/nodemailer";
-import GetUserByEmail from "../../services/auth/get_user_by_email";
+import GetUserByEmail from "../../services/auth/get_user_by_email_service";
 
-export default async function ForgotPasswordAuth(req: Request, res: Response) {
+export default async function ForgotPasswordAuthController(req: Request, res: Response) {
   try {
     // Read Request From Client and Validate
     const body = req.body;

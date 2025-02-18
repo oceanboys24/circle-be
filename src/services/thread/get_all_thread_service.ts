@@ -1,6 +1,6 @@
 import { prisma } from "../../libs/prisma";
 
-export default async function GetAllThreads() {
+export default async function GetAllThreadsService() {
   try {
     const resultAllThread = await prisma.thread.findMany();
 

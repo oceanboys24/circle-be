@@ -1,6 +1,6 @@
 import { prisma } from "../../libs/prisma";
 
-export default async function GetThreadById(id: string) {
+export default async function GetThreadByIdService(id: string) {
   try {
     const resultThread = await prisma.thread.findUnique({
       where: { id },

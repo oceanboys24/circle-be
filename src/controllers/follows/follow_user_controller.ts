@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import UnfollowUser from "../../services/follow/unfollow_service";
+import FollowUserService from "../../services/follow/follow_service";
 
-export default async function UnFollowUserController(
+export default async function FollowUserController(
   req: Request,
   res: Response
 ) {
@@ -9,7 +9,7 @@ export default async function UnFollowUserController(
     const followerId = (req as any).userVerify.id;
     const { followingId } = req.body;
 
-    const resultFollow = await UnfollowUser(
+    const resultFollow = await FollowUserService(
       followingId,
       followerId
     );

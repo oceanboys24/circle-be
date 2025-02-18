@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import CreateLikes from "../../services/like/create_like";
+import CreateLikes from "../../services/like/create_like_service";
+import CreateLikesService from "../../services/like/create_like_service";
 
 export default async function CreateLikeController(req: Request, res: Response) {
     try {
@@ -14,7 +15,7 @@ export default async function CreateLikeController(req: Request, res: Response) 
         return;
       }
 
-      const resutlLike = await CreateLikes(userId, threadId);
+      const resutlLike = await CreateLikesService(userId, threadId);
 
       res.status(resutlLike.status).json({
         status: resutlLike.status,

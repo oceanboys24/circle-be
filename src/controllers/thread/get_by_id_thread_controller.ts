@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import GetThreadById from "../../services/thread/get_by_id_thread_service";
+import GetThreadByIdService from "../../services/thread/get_by_id_thread_service";
 
 export default async function GetThreadByIdController(
   req: Request,
@@ -9,7 +10,7 @@ export default async function GetThreadByIdController(
     // ID Params
     const { id } = req.params;
     // Read By ID
-    const thread = await GetThreadById(id);
+    const thread = await GetThreadByIdService(id);
     // Return Result
     res.status(thread.status).json(thread);
   } catch (error) {

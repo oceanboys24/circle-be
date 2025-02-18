@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ProfileSchema } from "../../utils/schema/profile_schema";
 import Joi from "joi";
-import AddProfileService from "../../services/profile/setup_profile";
+import AddProfileService from "../../services/profile/setup_profile_service";
 
 export default async function UpdateProfileController(
   req: Request,

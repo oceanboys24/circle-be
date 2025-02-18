@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { UpdateThreadSchema } from "../../utils/schema/thread_schema";
 import UpdateThread from "../../services/thread/update_thread_service";
 import Joi from "joi";
+import UpdateThreadService from "../../services/thread/update_thread_service";
 
 export default async function UpdateThreadController(
   req: Request,
@@ -20,7 +21,7 @@ export default async function UpdateThreadController(
     const validateData = await UpdateThreadSchema.validateAsync(bodyThread);
 
     // Inject Update to DB
-    const thread = await UpdateThread(id, validateData);
+    const thread = await UpdateThreadService(id, validateData);
 
     // Return Response to Client
     res.status(thread.status).json(thread);

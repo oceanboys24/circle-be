@@ -1,5 +1,5 @@
 import { prisma } from "../../libs/prisma";
-export default async function DeleteLike(userId: string, threadId: string) {
+export default async function DeleteLikeService(userId: string, threadId: string) {
   try {
     const likeResult = await prisma.like.deleteMany({
       where: { userId, threadId },

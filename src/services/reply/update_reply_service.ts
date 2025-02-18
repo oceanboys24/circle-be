@@ -1,7 +1,7 @@
 import { UpdateReplyDTO } from "../../dtos/reply_dto";
 import { prisma } from "../../libs/prisma";
 
-export default async function UpdateReply(id: string, data: UpdateReplyDTO) {
+export default async function UpdateReplyService(id: string, data: UpdateReplyDTO) {
     try {
       const replyUpdate = await prisma.reply.findUnique({
         where: { id },

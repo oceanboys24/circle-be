@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import DeleteThread from "../../services/thread/delete_thread_service";
+import DeleteThreadService from "../../services/thread/delete_thread_service";
 
 export default async function DeleteThreadController(
   req: Request,
@@ -9,7 +10,7 @@ export default async function DeleteThreadController(
     // Get ID params
     const { id } = req.params;
     // Delete Inject To service
-    const deleteThread = await DeleteThread(id);
+    const deleteThread = await DeleteThreadService(id);
     res.status(deleteThread?.status!).json(deleteThread);
   } catch (error) {
     res.status(500).json({

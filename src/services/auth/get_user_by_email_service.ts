@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 import { RegisterUserDTO } from "../../dtos/auth_dto";
 import { prisma } from "../../libs/prisma";
 
-export default async function GetUserByEmail(email: string) {
+export default async function GetUserByEmailService(email: string) {
   try {
     const resultUser = await prisma.user.findUnique({
       where: { email },

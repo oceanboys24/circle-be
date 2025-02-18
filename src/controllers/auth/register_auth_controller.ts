@@ -6,7 +6,7 @@ import { Request, Response } from "express";
 import Joi from "joi";
 import CreateRegisterAuth from "../../services/auth/register_auth_service";
 
-export default async function RegisterAuth(req: Request, res: Response) {
+export default async function RegisterAuthController(req: Request, res: Response) {
     try {
       // Read Request From Client
       const body = req.body;

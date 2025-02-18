@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import DeleteReply from "../../services/reply/delete_reply_service";
+import DeleteReplyService from "../../services/reply/delete_reply_service";
 
 export default async function DeleteReplyController(
   req: Request,
@@ -9,7 +10,7 @@ export default async function DeleteReplyController(
     // Get ID params
     const { id } = req.params;
     // Delete Inject To service
-    const deleteReply = await DeleteReply(id);
+    const deleteReply = await DeleteReplyService(id);
     res.status(deleteReply?.status!).json(deleteReply);
   } catch (error) {
     res.status(500).json({

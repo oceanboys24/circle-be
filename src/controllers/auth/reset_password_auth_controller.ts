@@ -1,10 +1,10 @@
 import { ResetPasswordSchema } from "../../utils/schema/auth_schema";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import GetUserByEmail from "../../services/auth/get_user_by_email";
+import GetUserByEmail from "../../services/auth/get_user_by_email_service";
 import ResetPasswordAuthService from "../../services/auth/reset_password_service";
 
-export default async function ResetPasswordAuth(req: Request, res: Response) {
+export default async function ResetPasswordAuthController(req: Request, res: Response) {
   try {
     const userPayload = (req as any).userVerify;
     const body = req.body;

@@ -1,8 +1,8 @@
-import GetAuthUserById from "../../services/auth/get_user_by_id";
+import GetAuthUserById from "../../services/auth/get_user_by_id_service";
 import { Request, Response } from "express";
 
 
-export default async function CheckAuth(req: Request, res: Response) {
+export default async function CheckAuthController(req: Request, res: Response) {
   try {
     const userPayload = (req as any).userVerify;
     const userVerify = await GetAuthUserById(userPayload.id);

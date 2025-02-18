@@ -1,6 +1,6 @@
 import { prisma } from "../../libs/prisma";
 
-export default async function FollowUser(
+export default async function FollowUserService(
   followersId: string,
   followingId: string
 ) {

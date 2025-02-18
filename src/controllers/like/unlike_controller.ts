@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import DeleteLike from "../../services/like/delete_like";
+import DeleteLike from "../../services/like/delete_like_service";
+import DeleteLikeService from "../../services/like/delete_like_service";
 
 export default async function UnlikeController(req: Request, res: Response) {
     try {
@@ -14,7 +15,7 @@ export default async function UnlikeController(req: Request, res: Response) {
         return;
       }
 
-      const resutlLike = await DeleteLike(userId, threadId);
+      const resutlLike = await DeleteLikeService(userId, threadId);
 
       res.status(resutlLike.status).json({
         status: resutlLike.status,
