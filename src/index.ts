@@ -1,11 +1,5 @@
-import express, { Express, Request, Response, Router } from "express";
-import UserRoute from "./routes/user_route";
-import AuthRoute from "./routes/auth_route";
-import ProfileRoute from "./routes/profile_route";
-import ThreadRoute from "./routes/thread_route";
-import LikesRoute from "./routes/like_route";
-import FollowRoute from "./routes/follow_route";
-import ReplyRoute from "./routes/reply_route";
+import express, { Express } from "express";
+import v1Router from "./routes/v1";
 
 require("dotenv").config();
 
@@ -14,14 +8,8 @@ const port = process.env.PORT;
 
 app.use(express.json());
 
-// Endpoint
-app.use("/users", UserRoute);
-app.use("/auth", AuthRoute);
-app.use("/profile", ProfileRoute);
-app.use("/threads", ThreadRoute);
-app.use("/likes", LikesRoute);
-app.use("/follows", FollowRoute)
-app.use("/reply", ReplyRoute)
+// Endpoint API V1
+app.use('/v1', v1Router)
 
 // Run App
 app.listen(port, () => {
