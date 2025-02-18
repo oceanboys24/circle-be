@@ -9,6 +9,7 @@ class ProfileController {
       // Read Request and Validate
       const userId = (req as any).userVerify.id;
       const bodyReq = req.body;
+      
 
       const validateReq = await ProfileSchema.validateAsync(bodyReq);
 

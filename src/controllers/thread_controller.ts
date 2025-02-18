@@ -11,7 +11,13 @@ class ThreadController {
     try {
       // Read All Request
       const userId = (req as any).userVerify.id;
-      const bodyThread = req.body;
+      const fileUrl = (req.file as Express.MulterS3.File).location;
+
+      const bodyThread = {
+        ...req.body,
+        imageContent: fileUrl,
+      };
+
       const threadValidate = await CreateThreadSchema.validateAsync(bodyThread);
 
       const resultData = await ThreadService.CreateThreadService(
@@ -87,9 +93,14 @@ class ThreadController {
     try {
       // Read ID and Body
       const { id } = req.params;
-      const data = req.body;
+      const fileUpload = req.file;
+      let image = fileUpload
+        ? (req.file as Express.MulterS3.File).location
+        : undefined;
+
+      const bodyThread = { ...req.body, imageContent: image };
       // Validate Request From Client
-      const validateData = await UpdateThreadSchema.validateAsync(data);
+      const validateData = await UpdateThreadSchema.validateAsync(bodyThread);
 
       // Inject Update to DB
       const thread = await ThreadService.UpdateThread(id, validateData);

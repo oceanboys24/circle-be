@@ -131,10 +131,10 @@ class AuthController {
       const resetPasswordLink = `localhost/reset-password?token=${token}`;
       // Body Reset Password
       const mailOptions = {
-        from: "alfian_jw@yahoo.com",
+        from: "admin@oceanboys.cloud",
         to: email,
         subject: "Circle | Forgot Password",
-        html: ` This is link for reset password: ${resetPasswordLink}">${resetPasswordLink}`,
+        html: ` This is link for reset password: ${resetPasswordLink}`,
       };
       // Send Link
       await transporter.sendMail(mailOptions);
@@ -147,6 +147,7 @@ class AuthController {
       res.status(500).json({
         status: 500,
         message: "Internal Server Error",
+        error: error,
       });
     }
   }
