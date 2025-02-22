@@ -6,7 +6,6 @@ export default async function CheckAuthController(req: Request, res: Response) {
   try {
     const userPayload = (req as any).userVerify;
     const userVerify = await GetAuthUserById(userPayload.id);
-    
 
     res.status(userVerify.status).json({
       status: userVerify.status,

@@ -3,14 +3,27 @@ import { UpdateThreadSchema } from "../../utils/schema/thread_schema";
 import UpdateThread from "../../services/thread/update_thread_service";
 import Joi from "joi";
 import UpdateThreadService from "../../services/thread/update_thread_service";
+import GetUserByIdService from "../../services/user/get_user_by_id_service";
+import GetThreadByIdController from "./get_by_id_thread_controller";
+import GetThreadByIdService from "../../services/thread/get_by_id_thread_service";
 
 export default async function UpdateThreadController(
   req: Request,
   res: Response
 ) {
   try {
+    const userId = (req as any).userVerify.id;
     // Read ID and Body
     const { id } = req.params;
+    const getOwnerThread = await GetThreadByIdService(id);
+   
+    if (userId !== getOwnerThread.data?.userId) {
+      res.status(403).json({
+        status: 403,
+        message: "Not Ownership Threads",
+      });
+      return
+    }
     const fileUpload = req.file;
     let image = fileUpload
       ? (req.file as Express.MulterS3.File).location

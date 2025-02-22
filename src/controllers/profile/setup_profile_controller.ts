@@ -11,8 +11,20 @@ export default async function UpdateProfileController(
     // Read Request and Validate
     const userId = (req as any).userVerify.id;
     const bodyReq = req.body;
+    const fileUrl = req.files as {
+      [fieldname: string]: Express.MulterS3.File[];
+    };
 
-    const validateReq = await ProfileSchema.validateAsync(bodyReq);
+    const avatarUrl = fileUrl.avatarUrl?.[0]?.location;
+    const bannerUrl = fileUrl.bannerUrl?.[0]?.location;
+
+    const ResultBody = {
+      ...bodyReq,
+      avatarUrl: avatarUrl,
+      bannerUrl: bannerUrl,
+    };
+
+    const validateReq = await ProfileSchema.validateAsync(ResultBody);
 
     // Call Service to DB
     const dataProfile = await AddProfileService(userId, validateReq);

@@ -2,7 +2,17 @@ import { prisma } from "../../libs/prisma";
 
 export default async function GetAllThreadsService() {
   try {
-    const resultAllThread = await prisma.thread.findMany();
+    const resultAllThread = await prisma.thread.findMany({
+      include: {
+        user: {
+          omit: {
+            password: true,
+          },
+        },
+        likes: true,
+        replies: true,
+      },
+    });
 
     if (resultAllThread.length === 0) {
       return { status: 404, message: "Thread Not Found" };

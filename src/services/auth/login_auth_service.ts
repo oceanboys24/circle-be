@@ -6,6 +6,14 @@ export default async function LoginAuthService(email: string) {
   try {
     const resultUser = await prisma.user.findUnique({
       where: { email },
+      include: {
+        thread: true,
+        followers: true,
+        following: true,
+        likes: true,
+        profile: true,
+        Replies: true,
+      },
     });
     if (!resultUser) {
       return { status: 404, message: "User Not Found" };

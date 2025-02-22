@@ -3,8 +3,12 @@ import jwt from "jsonwebtoken";
 import { ForgotPasswordSchema } from "../../utils/schema/auth_schema";
 import { transporter } from "../../libs/nodemailer";
 import GetUserByEmail from "../../services/auth/get_user_by_email_service";
+import Joi from "joi";
 
-export default async function ForgotPasswordAuthController(req: Request, res: Response) {
+export default async function ForgotPasswordAuthController(
+  req: Request,
+  res: Response
+) {
   try {
     // Read Request From Client and Validate
     const body = req.body;
@@ -32,7 +36,7 @@ export default async function ForgotPasswordAuthController(req: Request, res: Re
       from: "admin@oceanboys.cloud",
       to: email,
       subject: "Circle | Forgot Password",
-      html: ` This is link for reset password: ${resetPasswordLink}`,
+      html: ` This is link for reset password: ${resetPasswordLink} this token expired in 20 Minutes`,
     };
 
     // Send Link
@@ -43,6 +47,14 @@ export default async function ForgotPasswordAuthController(req: Request, res: Re
       message: "Link Reset Password Send",
     });
   } catch (error) {
+    if (error instanceof Joi.ValidationError) {
+      res.status(422).json({
+        status: 422,
+        message: "Validation Error",
+        details: error.details.map((detail) => detail.message),
+      });
+      return;
+    }
     res.status(500).json({
       status: 500,
       message: "Internal Server Error",

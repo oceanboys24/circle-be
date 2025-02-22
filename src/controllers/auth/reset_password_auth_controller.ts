@@ -3,8 +3,12 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import GetUserByEmail from "../../services/auth/get_user_by_email_service";
 import ResetPasswordAuthService from "../../services/auth/reset_password_service";
+import Joi from "joi";
 
-export default async function ResetPasswordAuthController(req: Request, res: Response) {
+export default async function ResetPasswordAuthController(
+  req: Request,
+  res: Response
+) {
   try {
     const userPayload = (req as any).userVerify;
     const body = req.body;
@@ -30,6 +34,14 @@ export default async function ResetPasswordAuthController(req: Request, res: Res
       message: "Success Change Password",
     });
   } catch (error) {
+    if (error instanceof Joi.ValidationError) {
+      res.status(422).json({
+        status: 422,
+        message: "Validation Error",
+        details: error.details.map((detail) => detail.message),
+      });
+      return;
+    }
     res.status(500).json({
       status: 500,
       message: "Internal Server Error",

@@ -12,7 +12,7 @@ export default async function CreateThreadService(userId: string, data: CreateTh
         },
       });
       return {
-        status: 200,
+        status: 201,
         message: "Success Create Thread",
         data: resultData,
       };

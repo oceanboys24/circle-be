@@ -14,7 +14,7 @@ export default async function CreateReplyService(userId: string, data: CreateRep
         },
       });
       return {
-        status: 200,
+        status: 201,
         message: "Success Create Reply",
         data: resultData,
       };

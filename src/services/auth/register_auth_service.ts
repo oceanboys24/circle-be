@@ -7,8 +7,7 @@ export default async function CreateRegisterAuthService(data: RegisterUserDTO) {
     const registerAuth = await prisma.user.create({ data });
     return {
       status: 201,
-      message: "Success Create",
-      data: registerAuth,
+      message: "Success Create User Please Login to Use Our Product",
     };
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {

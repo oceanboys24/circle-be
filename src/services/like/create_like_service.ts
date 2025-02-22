@@ -18,7 +18,7 @@ export default async function CreateLikesService(userId: string, threadId: strin
     });
 
     return {
-      status: 200,
+      status: 201,
       message: "Success Like Thread",
     };
   } catch (error) {

@@ -3,6 +3,7 @@ import { LoginAuthSchema } from "../../utils/schema/auth_schema";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import LoginAuthService from "../../services/auth/login_auth_service";
+import Joi from "joi";
 
 export default async function LoginAuthController(req: Request, res: Response) {
   try {
@@ -43,8 +44,17 @@ export default async function LoginAuthController(req: Request, res: Response) {
       status: 200,
       message: "Success Login",
       token: myToken,
+      data: resultLogin,
     });
   } catch (error) {
+    if (error instanceof Joi.ValidationError) {
+      res.status(422).json({
+        status: 422,
+        message: "Validation Error",
+        details: error.details.map((detail) => detail.message),
+      });
+      return;
+    }
     res.status(500).json({
       status: 500,
       message: "Internal Server Error",

@@ -1,6 +1,5 @@
 import { RegisterAuthSchema } from "../../utils/schema/auth_schema";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { RegisterUserDTO } from "../../dtos/auth_dto";
 import { Request, Response } from "express";
 import Joi from "joi";
@@ -28,8 +27,8 @@ export default async function RegisterAuthController(req: Request, res: Response
       const RegistToDB = await CreateRegisterAuth(storeToDB);
       // Send Response
       res.status(RegistToDB.status).json({
+        status: RegistToDB.status,
         message: RegistToDB.message,
-        data: RegistToDB.data,
       });
     } catch (error) {
       if (error instanceof Joi.ValidationError) {

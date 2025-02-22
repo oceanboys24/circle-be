@@ -19,7 +19,7 @@ export const upload = multer({
     s3: s3,
     acl: "public-read",
     bucket: "circle",
-    contentType : multerS3.AUTO_CONTENT_TYPE,
+    contentType: multerS3.AUTO_CONTENT_TYPE,
     metadata: (req, file, cb) => {
       cb(null, { fieldName: file.fieldname });
     },
@@ -32,8 +32,13 @@ export const upload = multer({
   },
   fileFilter: (req, file, cb) => {
     if (!file.mimetype.startsWith("image/")) {
-        return cb(Error("Cannot upload except images") as any, false);
+      return cb(Error("Cannot upload except images") as any, false);
     }
     cb(null, true);
-},
+  },
 });
+
+export const uploadFiles = upload.fields([
+  { name: "avatarUrl", maxCount: 1 },
+  { name: "bannerUrl", maxCount: 1 },
+]);

@@ -2,7 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 export function AuthCheck(req: Request, res: Response, next: NextFunction) {
-  const token = req.headers["authorization"] || "";
+  const authHeader = req.headers["authorization"] || "";
+  const token = authHeader.split(" ")[1];
   const jwtToken = process.env.JWT_SECRET || "";
 
   try {
@@ -17,6 +18,7 @@ export function AuthCheck(req: Request, res: Response, next: NextFunction) {
     next();
   } catch (error) {
     res.status(403).json({
+      status : 403,
       message: "Forbidden : Invalid or Expired Token",
     });
     return;
