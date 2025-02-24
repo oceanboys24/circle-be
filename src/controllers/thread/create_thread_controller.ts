@@ -3,7 +3,6 @@ import { CreateThreadSchema } from "../../utils/schema/thread_schema";
 import CreateThreadService from "../../services/thread/create_thread_service";
 import Joi from "joi";
 
-
 export default async function CreateThreadController(
   req: Request,
   res: Response
@@ -11,19 +10,16 @@ export default async function CreateThreadController(
   try {
     // Read All Request
     const userId = (req as any).userVerify.id;
-    const fileUrl = (req.file as Express.MulterS3.File).location;
 
     const bodyThread = {
       ...req.body,
-      imageContent: fileUrl,
     };
+
+    console.log(bodyThread);
 
     const threadValidate = await CreateThreadSchema.validateAsync(bodyThread);
 
-    const resultData = await CreateThreadService(
-      userId,
-      threadValidate
-    );
+    const resultData = await CreateThreadService(userId, threadValidate);
 
     res.status(resultData.status).json({
       status: resultData.status,

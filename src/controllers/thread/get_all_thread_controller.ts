@@ -7,8 +7,16 @@ export default async function GetThreadAllController(
   res: Response
 ) {
   try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const startIndex = (page - 1) * limit;
+
+    const pagination = {
+      startIndex,
+      limit,
+    };
     // Read All Record
-    const threads = await GetAllThreadsService();
+    const threads = await GetAllThreadsService(pagination);
     // Return Result Record
     res.status(threads.status).json(threads);
   } catch (error) {

@@ -5,6 +5,7 @@ import RegisterAuthController from "../../controllers/auth/register_auth_control
 import CheckAuthController from "../../controllers/auth/check_auth_controller";
 import ForgotPasswordAuthController from "../../controllers/auth/forgot_password_auth_controller";
 import ResetPasswordAuthController from "../../controllers/auth/reset_password_auth_controller";
+import GetUsersSearch from "../../controllers/auth/get_users_by_search";
 
 const AuthRoute = expres.Router();
 
@@ -13,5 +14,6 @@ AuthRoute.post("/register", RegisterAuthController);
 AuthRoute.post("/check", AuthCheck, CheckAuthController);
 AuthRoute.post("/forgot-password", ForgotPasswordAuthController);
 AuthRoute.post("/reset-password", AuthCheck, ResetPasswordAuthController);
+AuthRoute.get("/users",  GetUsersSearch)
 
 export default AuthRoute;

@@ -12,7 +12,6 @@ const ThreadRoute = expres.Router();
 ThreadRoute.post(
   "/",
   AuthCheck,
-  upload.single("image"),
   CreateThreadController
 );
 ThreadRoute.get("/:id", AuthCheck, GetThreadByIdController);

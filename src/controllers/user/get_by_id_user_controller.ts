@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
 
 import GetUserByIdService from "../../services/user/get_user_by_id_service";
+import GetAuthUserByIdService from "../../services/auth/get_user_by_id_service";
 
 export default async function GetUserByIdController(req: Request, res: Response) {
   try {
     // ID Params
     const { id } = req.params;
     // Read By ID
-    const user = await GetUserByIdService(id);
+    const user = await GetAuthUserByIdService(id);
     // Return Result
     res.status(user.status).json(user);
   } catch (error) {

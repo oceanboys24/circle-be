@@ -1,6 +1,9 @@
 import { prisma } from "../../libs/prisma";
 
-export default async function GetAllThreadsService() {
+export default async function GetAllThreadsService(pagination?: {
+  startIndex: number;
+  limit: number;
+}) {
   try {
     const resultAllThread = await prisma.thread.findMany({
       include: {
@@ -8,9 +11,17 @@ export default async function GetAllThreadsService() {
           omit: {
             password: true,
           },
+          include: {
+            profile: true,
+          },
         },
         likes: true,
         replies: true,
+      },
+      take: pagination?.limit,
+      skip: pagination?.startIndex,
+      orderBy: {
+        createdAt: "desc",
       },
     });
 
