@@ -22,6 +22,16 @@ export default async function ResetPasswordAuthController(
       return;
     }
 
+    const isSamePassword = await bcrypt.compare(
+      newPassword,
+      user.data?.password ?? " "
+    );
+    if (isSamePassword) {
+      res.status(400).json({
+        message: "Password can't be same previous",
+      });
+      return;
+    }
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
     const updatedUserPassword = await ResetPasswordAuthService(
@@ -37,7 +47,7 @@ export default async function ResetPasswordAuthController(
     if (error instanceof Joi.ValidationError) {
       res.status(422).json({
         status: 422,
-        message: "Validation Error",
+        message: "Password must be at least 8 Character",
         details: error.details.map((detail) => detail.message),
       });
       return;

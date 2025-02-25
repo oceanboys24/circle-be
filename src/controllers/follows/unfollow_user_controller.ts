@@ -9,10 +9,7 @@ export default async function UnFollowUserController(
     const followerId = (req as any).userVerify.id;
     const { followingId } = req.body;
 
-    const resultFollow = await UnfollowUserService(
-      followingId,
-      followerId
-    );
+    const resultFollow = await UnfollowUserService(followingId, followerId);
 
     res.status(resultFollow.status).json({
       status: resultFollow.status,

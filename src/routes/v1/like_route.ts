@@ -6,6 +6,6 @@ import UnlikeController from "../../controllers/like/unlike_controller";
 const LikesRoute = expres.Router();
 
 LikesRoute.post("/", AuthCheck, CreateLikeController);
-LikesRoute.delete("/", AuthCheck, UnlikeController);
+LikesRoute.delete("/:id", AuthCheck, UnlikeController);
 
 export default LikesRoute;

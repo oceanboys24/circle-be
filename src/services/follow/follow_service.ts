@@ -11,21 +11,35 @@ export default async function FollowUserService(
         message: "You Cannot Follow Yourself",
       };
     }
-    const existingFollow = await prisma.follow.findUnique({
-      where: { followingId_followersId: { followersId, followingId } },
+
+    const existingFollow = await prisma.follow.findFirst({
+      where: { followersId, followingId },
     });
 
     if (existingFollow) {
       return {
         status: 400,
-        message: "Already Follow",
+        message: "Already Following",
       };
     }
-    const resultFollow = await prisma.follow.create({
+
+    await prisma.follow.create({
       data: { followersId, followingId },
     });
-    return { status: 200, message: "Successfully Follow User" };
-  } catch (error) {
+
+    return { status: 200, message: "Successfully Followed User" };
+  } catch (error: any) {
+    console.error(error);
     return { status: 500, message: "Internal Server Error" };
   }
 }
+
+export async function GetFollowById(userId: string, otherUser: string) {
+  return await prisma.follow.findFirst({
+    where: {
+      followersId: otherUser,
+      followingId: userId,
+    },
+  });
+}
+

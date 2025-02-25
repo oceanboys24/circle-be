@@ -11,8 +11,8 @@ export default async function AddProfileService(userId: string, data: ProfileDTO
           bannerUrl: data.bannerUrl,
           user: {
             update: {
-              fullName: data.userName,
-              userName: data.fullName,
+              fullName: data.fullName,
+              userName: data.userName,
             },
           },
         },

@@ -5,6 +5,8 @@ export default async function GetAllUserService() {
     const resultAllUser = await prisma.user.findMany({
       include: {
         profile: true,
+        followers: true,
+        following: true,
       },
     });
 

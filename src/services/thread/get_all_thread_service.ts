@@ -25,6 +25,8 @@ export default async function GetAllThreadsService(pagination?: {
       },
     });
 
+    const totalThreads = await prisma.thread.count();
+
     if (resultAllThread.length === 0) {
       return { status: 404, message: "Thread Not Found" };
     }
@@ -33,6 +35,28 @@ export default async function GetAllThreadsService(pagination?: {
       status: 200,
       message: "Threads Found",
       data: resultAllThread,
+      count: totalThreads,
+    };
+  } catch (error) {
+    return {
+      status: 500,
+      message: "Internal Server Error",
+    };
+  }
+}
+
+export async function GetAllThreadsRealService() {
+  try {
+    const totalThreads = await prisma.thread.count();
+    console.log(totalThreads);
+    if (totalThreads === 0) {
+      return { status: 404, message: "Thread Not Found" };
+    }
+
+    return {
+      status: 200,
+      message: "Threads Found",
+      data: totalThreads,
     };
   } catch (error) {
     return {

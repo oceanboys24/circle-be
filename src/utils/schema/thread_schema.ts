@@ -6,8 +6,9 @@ export const CreateThreadSchema = Joi.object<CreateThreadDTO>({
   imageContent: Joi.string().optional(),
 });
 
-
 export const UpdateThreadSchema = Joi.object<UpdateThreadDTO>({
-  content: Joi.string().min(5).optional(),
+  content: Joi.string().min(5).optional().messages({
+    "string.min": "Minimum 5 Character to Create Thread",
+  }),
   imageContent: Joi.string().optional(),
 });

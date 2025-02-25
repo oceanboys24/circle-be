@@ -1,7 +1,9 @@
 import { prisma } from "../../libs/prisma";
 
-
-export default async function CreateLikesService(userId: string, threadId: string) {
+export default async function CreateLikesService(
+  userId: string,
+  threadId: string
+) {
   try {
     const existingLike = await prisma.like.findUnique({
       where: { userId_threadId: { userId, threadId } },
@@ -27,4 +29,12 @@ export default async function CreateLikesService(userId: string, threadId: strin
       message: "Internal Server Error",
     };
   }
+}
+export async function GetLikeById(userId: string, threadId: string) {
+  return await prisma.like.findFirst({
+    where: {
+      userId,
+      threadId,
+    },
+  });
 }

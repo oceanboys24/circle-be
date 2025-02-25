@@ -7,7 +7,11 @@ export default async function GetThreadByIdService(id: string) {
       include: {
         replies: true,
         likes: true,
-        user: true,
+        user: {
+          include : {
+            profile : true
+          }
+        },
       },
     });
     if (!resultThread) {

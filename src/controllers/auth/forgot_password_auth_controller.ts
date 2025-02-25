@@ -30,13 +30,15 @@ export default async function ForgotPasswordAuthController(
       expiresIn: "20m",
     });
     // Link Reset Password
-    const resetPasswordLink = `localhost/reset-password?token=${token}`;
+    const resetPasswordLink = `http://localhost:5173/reset-password?token=${token}`;
     // Body Reset Password
     const mailOptions = {
       from: "admin@oceanboys.cloud",
       to: email,
       subject: "Circle | Forgot Password",
-      html: ` This is link for reset password: ${resetPasswordLink} this token expired in 20 Minutes`,
+      html: `This is the link to reset your password: 
+         <a href="${resetPasswordLink}" target="_blank">${resetPasswordLink}</a>. 
+         This token expires in 20 minutes.`,
     };
 
     // Send Link

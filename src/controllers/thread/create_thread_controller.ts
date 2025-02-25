@@ -15,8 +15,6 @@ export default async function CreateThreadController(
       ...req.body,
     };
 
-    console.log(bodyThread);
-
     const threadValidate = await CreateThreadSchema.validateAsync(bodyThread);
 
     const resultData = await CreateThreadService(userId, threadValidate);

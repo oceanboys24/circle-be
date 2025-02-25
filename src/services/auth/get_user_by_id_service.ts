@@ -9,8 +9,24 @@ export default async function GetAuthUserByIdService(id: string) {
       },
       include: {
         thread: true,
-        followers: true,
-        following: true,
+        followers: {
+          include: {
+            followers: {
+              include: {
+                profile: true,
+              },
+            },
+          },
+        },
+        following: {
+          include: {
+            following: {
+              include: {
+                profile: true,
+              },
+            },
+          },
+        },
         likes: true,
         profile: true,
         Replies: true,
