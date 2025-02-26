@@ -2,7 +2,11 @@ import { prisma } from "../../libs/prisma";
 
 export default async function GetAllReplyService() {
   try {
-    const resultAllReply = await prisma.reply.findMany();
+    const resultAllReply = await prisma.reply.findMany({
+      orderBy: {
+        reatedAt : "asc"
+      },
+    });
 
     if (resultAllReply.length === 0) {
       return { status: 404, message: "Reply Not Found" };
